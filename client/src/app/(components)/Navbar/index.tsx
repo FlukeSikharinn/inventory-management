@@ -20,11 +20,6 @@ const Navbar = () => {
     const toggleDarkMode = () => {
         dispatch(setIsDarkMode(!isDarkMode))
     }
-
-    const sidebarClassNames = `fixed flex flex-col
-    ${isSidebarCollapsed ? 'w-0 md:w-16' : 'w-72 md:w-64'}
-    bg-white transition-all duration-300 overflow-hidden h-full shadow-md z-40
-    `
     
   return (
     <div className='flex justify-between items-center w-full mb-2'>
