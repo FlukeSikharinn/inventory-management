@@ -21,7 +21,7 @@ type ReviewFormData = {
     review: string;
 }
 
-const products = () => {
+const Products = () => {
     const [searchItem, setSearchItem] = useState("");
     const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
     const [isModalReviewOpen, setIsModalReviewOpen] = useState(false);
@@ -139,4 +139,4 @@ const products = () => {
   )
 }
 
-export default products
+export default Products
