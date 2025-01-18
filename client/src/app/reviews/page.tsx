@@ -23,7 +23,7 @@ const columns: GridColDef[] = [
 ];
 import React from 'react'
 
-const reviews = () => {
+const Reviews = () => {
   const { data: review, isError, isLoading } = useGetReviewsQuery();
 
   if (isLoading) {
@@ -52,4 +52,4 @@ const reviews = () => {
   );
 }
 
-export default reviews
+export default Reviews
