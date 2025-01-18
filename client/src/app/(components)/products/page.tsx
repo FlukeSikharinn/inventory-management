@@ -51,14 +51,6 @@ const Products = () => {
         );
     }
 
-    const addReviewProduct = async (id: string) => {
-        try {
-            console.log(`Adding product with ID ${id} to the cart.`);
-        } catch (error) {
-            console.error("Failed to add product to the cart", error);
-        }
-    };
-
   return (
     <div className="mx-auto pb-5 w-full">
         <div className="mb-6">
