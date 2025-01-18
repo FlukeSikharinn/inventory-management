@@ -9,7 +9,6 @@ import {
 import globalReducer from "@/state";
 import { api } from "@/state/api";
 import { setupListeners } from "@reduxjs/toolkit/query";
-
 import {
   persistStore,
   persistReducer,
@@ -24,34 +23,30 @@ import { PersistGate } from "redux-persist/integration/react";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 
 /* REDUX PERSISTENCE */
+
+// Create a custom noop storage for SSR
 const createNoopStorage = () => {
   return {
-    getItem(_key: any) {
-      return Promise.resolve(null);
-    },
-    setItem(_key: any, value: any) {
-      return Promise.resolve(value);
-    },
-    removeItem(_key: any) {
-      return Promise.resolve();
-    },
+    getItem: (_key: string) => Promise.resolve(null),
+    setItem: (_key: string, value: string) => Promise.resolve(value),
+    removeItem: (_key: string) => Promise.resolve(),
   };
 };
 
-const storage =
-  typeof window === "undefined"
-    ? createNoopStorage()
-    : createWebStorage("local");
+// Choose storage based on environment
+const storage = typeof window === "undefined" ? createNoopStorage() : createWebStorage("local");
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["global"],
+  whitelist: ["global"], // Only persist global state
 };
+
 const rootReducer = combineReducers({
   global: globalReducer,
   [api.reducerPath]: api.reducer,
 });
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 /* REDUX STORE */
@@ -75,16 +70,14 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 /* PROVIDER */
-export default function StoreProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function StoreProvider({ children }: { children: React.ReactNode }) {
   const storeRef = useRef<AppStore | null>(null);
+
   if (!storeRef.current) {
     storeRef.current = makeStore();
     setupListeners(storeRef.current.dispatch);
   }
+
   const persistor = persistStore(storeRef.current);
 
   return (
